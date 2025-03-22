@@ -1,0 +1,23 @@
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://test_owner:WwuATaYL4G6E@ep-super-thunder-a5k9g6il.us-east-2.aws.neon.tech/test?sslmode=require"
+}
+
+generator client {
+  provider = "prisma-client-py"
+   interface = "sync"
+}
+model User{
+    id String @id @default(uuid())
+    email String @unique
+    password String
+    Blogs Blog[]
+
+}
+model Blog{
+    id String @id @default(uuid())
+    title String
+    content String
+    user User @relation(fields: [userId], references: [id])
+    userId String
+}
