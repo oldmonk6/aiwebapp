@@ -15,7 +15,8 @@ def login():
     token=gen_token(user[0].id)
     response = make_response(jsonify({"message": "Login successful"}), 200)
     response.set_cookie("token", token, httponly=True,  # Prevent JavaScript access
-        secure=True,    # Send only over HTTPS (set to False for local dev)
+        secure=False, # Send only over HTTPS (set to False for local dev)
         samesite="Lax", # Protect against CSRF
-        max_age=3600  )
+        max_age=3600 ,
+        path="/" )
     return response

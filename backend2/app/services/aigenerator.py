@@ -3,9 +3,11 @@ import os
 from groq import Groq
 import re
 
+
 def extract_video_id(url):
-    match = re.search(r"(?<=v=|/videos/|embed/|youtu.be/|/v/|/e/|watch\?v=|&v=|/shorts/)([^#&?]*)", url)
-    return match.group(1) if match else None
+     pattern = r"(?:v=|\/videos\/|embed\/|youtu\.be\/|\/v\/|\/e\/|watch\?v=|&v=|\/shorts\/)([^#&?]+)"
+     match = re.search(pattern, url)
+     return match.group(1) if match else None
 def get_transcript(url):
     video_id=extract_video_id(url)
     if not video_id:
@@ -20,7 +22,7 @@ def generateblog(video_url):
     transcript=get_transcript(video_url)
     if not transcript:
         return {"message":"Invalid video URL"}
-    client=Groq(os.getenv("openai_key"),)
+    client=Groq(api_key=os.getenv("openai_key"))
     chat=client.chat.completions.create(
          messages=[
               {

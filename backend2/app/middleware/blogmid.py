@@ -6,7 +6,10 @@ def auth_required(f):
     """Middleware to check JWT token in cookies."""
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        token = request.cookies.get("access_token")  # Get token from cookie
+     
+        print(request.cookies)
+        token = request.cookies.get("token")
+        print(token)  # Get token from cookie
 
         if not token:
             return jsonify({"error": "Unauthorized"}), 401

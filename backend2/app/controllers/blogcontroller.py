@@ -7,12 +7,15 @@ from app.middleware.blogmid import auth_required
 def generate():
     data=request.json
     url=data.get("videourl")
+    print(url)
     if not url:
         return {"message":"Video URL is required"}
     blog=generateblog(url)
     if not blog:
         return {"message":"Error generating blog"}
+    print(request.user["id"])
     Blog.prisma().create(
-        data={"title": f"Blog from {url}", "content": blog, "userId": request.user.id}
+        data={"title": f"Blog from {url}", "content": blog, "userId": request.user["id"]}
     )
-    return jsonify({"blog": blog}), 20
+    print(blog)
+    return jsonify({"blog": blog})
